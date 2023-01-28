@@ -1,3 +1,8 @@
+/**
+		Analyze the given text and count the frequency of each character
+		@param {string} text - the text to be analyzed
+		@returns {Object} - an object containing the frequency of each character in the text
+*/
 function analyse(text) {
 	var freqs = {};
 
@@ -10,10 +15,13 @@ function analyse(text) {
 			freqs[ch] += 1;
 		}
 	}
-
 	return freqs;
 }
-
+/**
+		Build a priority queue of characters based on their frequency
+		@param {Object} freqs - an object containing the frequency of each character
+		@returns {Object} - an object containing tree of each character
+		*/
 function buildPriorityQueue(freqs) {
 	heapReset();
 	var trees = {}
@@ -21,16 +29,17 @@ function buildPriorityQueue(freqs) {
 		heapAdd({ "value": ch, "freq": freqs[ch] });
 		trees[ch] = { "freq": freqs[ch], "left": null, "right": null };
 	}
-
 	return trees;
 }
-
+/**
+		Build a Huffman tree based on the priority queue
+		@param {Object} trees - an object containing tree of each character
+		@returns {Object} - an object containing the root of the Huffman tree and the full tree
+*/
 function buildHuffmanTree(trees) {
 	while (heapLength() >= 2) {
 		var heapEntry1 = heapGet();
 		var heapEntry2 = heapGet();
-		var treeEntry1 = trees[heapEntry1["value"]];
-		var treeEntry2 = trees[heapEntry2["value"]];
 
 		var combinedFreq = heapEntry1["freq"] + heapEntry2["freq"];
 		var combinedName = heapEntry1["value"] + heapEntry2["value"];
@@ -42,7 +51,11 @@ function buildHuffmanTree(trees) {
 	var lastItem = heapGet();
 	return { "root": lastItem["value"], "fullTree": trees };
 }
-
+/**
+		Encode the given input using Huffman encoding
+		@param {string} input - the input to be encoded
+		@returns {string} - the encoded string
+		*/
 function normalEncode(input) {
 	var result = "";
 	for (var i = 0; i < input.length; i++) {
@@ -51,7 +64,11 @@ function normalEncode(input) {
 	}
 	return result;
 }
-
+/**
+* Encodes the input string by formatting it with alternating background colors.
+* @param {string} input - The input string to be encoded.
+* @return {string} - The encoded string with alternating background colors.
+*/
 function normalEncodeFormatted(input) {
 	var result = "";
 
@@ -66,6 +83,13 @@ function normalEncodeFormatted(input) {
 	return result;
 }
 
+/**
+* Encodes the input string using a given tree object.
+* @param {object} treeObj - The tree object used to encode the input string.
+* @param {string} input - The input string to be encoded.
+* @return {string} - The encoded string.
+*/
+
 function encode(treeObj, input) {
 	var result = "";
 	for (var i = 0; i < input.length; i++) {
@@ -75,7 +99,12 @@ function encode(treeObj, input) {
 
 	return result;
 }
-
+/**
+* Encodes the input string using a given tree object and formats it with alternating background colors.
+* @param {object} treeObj - The tree object used to encode the input string.
+* @param {string} input - The input string to be encoded.
+* @return {string} - The encoded string with alternating background colors.
+*/
 function encodeFormatted(treeObj, input) {
 	var result = "";
 
@@ -90,7 +119,15 @@ function encodeFormatted(treeObj, input) {
 
 	return result;
 }
-
+/**
+		findChar is a function that takes in two parameters, ch and treeObj.
+		The function starts at the root of treeObj and traverses the tree until it finds ch.
+		The function returns a string of binary digits representing the path from the root of the tree to the ch.
+		If the function does not find ch, it will log an error message.
+		@param {string} ch - the character to find in the tree
+		@param {object} treeObj - the Huffman tree object
+		@returns {string} result - a string of binary digits representing the path from the root of the tree to the ch
+		*/
 function findChar(ch, treeObj) {
 	var result = "";
 	var pos = treeObj["root"];
@@ -124,7 +161,12 @@ function findChar(ch, treeObj) {
 	}
 	return result;
 }
-
+/**
+		resolveChar is a function that takes in one parameter, code.
+		The function converts a numerical code into a binary representation of 8 digits.
+		@param {number} code - the numerical code to convert
+		@returns {string} output - a string of binary digits representing the code
+*/
 function resolveChar(code) {
 	var output = "";
 	for (var i = 0; i < 8; i++) {
