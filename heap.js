@@ -1,14 +1,29 @@
-var heap = [false]	// take up first space in array
+/**
+ * An array-based min heap implementation
+ * @type {Array}
+ */
+var heap = [false]; // take up first space in array
 
+/**
+ * Resets the heap to an empty state
+ */
 function heapReset() {
 	heap = [false];
 }
 
+/**
+ * Adds an item to the heap
+ * @param {Any} item - The item to be added to the heap
+ */
 function heapAdd(item) {
 	heap.push(item);
-	siftUp(heap.length-1);
+	siftUp(heap.length - 1);
 }
 
+/**
+ * Gets the minimum item from the heap
+ * @return {Any} The minimum item from the heap
+ */
 function heapGet() {
 	if (heap.length == 1) {
 		return false;
@@ -18,18 +33,21 @@ function heapGet() {
 		heap = [false];
 		return result;
 	}
-	
+
 	var result = heap[1];
 	heap[1] = heap.pop();
 	siftDown(1);
 	return result;
 }
 
+/**
+ * Prints the heap to the console in a tree format
+ */
 function heapDump() {
 	var output = "";
 	var breakPoint = 1;
 	var count = 0;
-	for (var i=1; i<heap.length; i++) {
+	for (var i = 1; i < heap.length; i++) {
 		output += heap[i]["freq"] + "\t";
 		count++;
 		if (count == breakPoint) {
@@ -41,12 +59,18 @@ function heapDump() {
 	console.log(output);
 }
 
+/**
+ * Gets the length of the heap
+ * @return {Number} The length of the heap
+ */
 function heapLength() {
 	return heap.length - 1;
 }
 
-
-
+/**
+ * Sifts an item up the heap to maintain the heap property
+ * @param {Number} idx - The index of the item to sift up
+ */
 function siftUp(idx) {
 	while (true) {
 		if (getParent(idx) == -1) break;
@@ -60,15 +84,20 @@ function siftUp(idx) {
 		}
 	}
 }
+/**
+	*  @function siftDown
+	*  @param {number} idx - The index of the element to be sifted down in the heap
+	*  Sifts down an element in the heap. While the element has children, compares the frequency of the children to the frequency of the element, and swaps the element with the child with the lowest frequency, until it reaches its correct position in the heap.
+ */
 
 function siftDown(idx) {
 	while (true) {
 		var curr = heap[idx];
 		var leftIdx = getLeftChild(idx);
 		var rightIdx = getRightChild(idx);
-		var leftObj = leftIdx==-1? null : heap[leftIdx];
-		var rightObj = rightIdx==-1? null : heap[rightIdx];
-		
+		var leftObj = leftIdx == -1 ? null : heap[leftIdx];
+		var rightObj = rightIdx == -1 ? null : heap[rightIdx];
+
 		if (leftIdx == -1 && rightIdx == -1) {
 			break;
 		}
@@ -109,17 +138,17 @@ function siftDown(idx) {
 }
 
 
-function getParent(idx) { 
+function getParent(idx) {
 	if (idx == 1) return -1;
-	return parseInt(idx/2);
+	return parseInt(idx / 2);
 }
 function getLeftChild(idx) {
-	if (2*idx >= heap.length) return -1;
-	return 2*idx;
+	if (2 * idx >= heap.length) return -1;
+	return 2 * idx;
 }
 function getRightChild(idx) {
-	if ((2*idx)+1 >= heap.length) return -1;
-	return (2*idx)+1;
+	if ((2 * idx) + 1 >= heap.length) return -1;
+	return (2 * idx) + 1;
 }
 function swap(idx1, idx2) {
 	var temp = heap[idx1];
